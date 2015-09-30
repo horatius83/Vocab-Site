@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Question, QuestionStats
 
-# Register your models here.
+for x in [Question, QuestionStats]:
+    admin.site.register(x)
