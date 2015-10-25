@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head ng-app='quiz'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>Quiz</title>
 </head>
 <body>
-    <h3>Section x of x (x% done)</h3>
-    <h3>Current average: x%</h3>
-    <h3 class="question">x</h3>
-    <form>
-        <input type="text" name="answer"></input>
-        <input type="submit" name="submit"></input>
-    </form>
+    <div id='question' ng-controller='QuizController as Quiz'>
+        <h3>Section x of x (x% done)</h3>
+        <h3>Current average: x%</h3>
+        <h3 class="question">{{quiz.getCurrentQuestion()}}</h3>
+        <form>
+            <input type="text" name="answer"></input>
+            <input type="submit" name="submit"></input>
+        </form>
+    </div>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js'></script>
-
     <script src='quiz.js'></script>
 </body>
 </html>

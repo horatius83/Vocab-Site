@@ -1,5 +1,5 @@
-var quiz = JSON.parse('{
-    "name": ".\\Italian\\Italian5.json",
+var quizText = `{
+    "name": ".\Italian\Italian5.json",
     "vocab": [
         {
             "answer": "ha",
@@ -541,5 +541,26 @@ var quiz = JSON.parse('{
             "tried": 1
         }
     ]
-}';
-quiz.index = 0;
+}`;
+var quizJson = JSON.parse(quizText);
+
+(function(){
+    var quizApp = angular.module('quizApp', []);
+    quizApp.controller('QuizController', function() {
+        this.title = quizJson['name'];
+        this.questions = quizJson['vocab'];
+        this.questions.index = 0;
+        this.getQuestion = function(index) {
+            return this.questions[index];
+        };
+        this.getCurrentQuestion = function() {
+            return this.questions[this.questions.index]['question'];
+        };
+        this.getCurrentAnswer = function() {
+            return this.questions[this.questions.index]['answer'];
+        };
+        this.gotoNextQuestion = function() {
+            this.index += 1;
+        };
+    });
+})();
