@@ -19,21 +19,21 @@ var quizText = `{
             "answer": "Giorgio e Pete hanno sempre sonno.",
             "failed": 1,
             "lastAsked": 1445534063.6969762,
-            "question": "What is the definition of \"Giorgio and Pete are always sleepy.\"?",
+            "question": "What is the definition of \\"Giorgio and Pete are always sleepy.\\"?",
             "tried": 2
         },
         {
             "answer": "I am always in a hurry, too.",
             "failed": 0,
             "lastAsked": 1445533934.044976,
-            "question": "Given the definition \"Anche io ho sempre fretta.\", what is the word?",
+            "question": "Given the definition \\"Anche io ho sempre fretta.\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "Maria ha sempre freddo.",
             "failed": 1,
             "lastAsked": 1445534068.915976,
-            "question": "What is the definition of \"Maria is always cold.\"?",
+            "question": "What is the definition of \\"Maria is always cold.\\"?",
             "tried": 2
         },
         {
@@ -82,7 +82,7 @@ var quizText = `{
             "answer": "Loro hanno voglia di un caffe'.",
             "failed": 1,
             "lastAsked": 1445534182.8089762,
-            "question": "What is the definition of \"They feel like having a coffee.\"?",
+            "question": "What is the definition of \\"They feel like having a coffee.\\"?",
             "tried": 2
         },
         {
@@ -117,7 +117,7 @@ var quizText = `{
             "answer": "Betty and Rose are always in a hurry.",
             "failed": 0,
             "lastAsked": 1445534192.227976,
-            "question": "Given the definition \"Betty e Rose hanno sempre fretta.\", what is the word?",
+            "question": "Given the definition \\"Betty e Rose hanno sempre fretta.\\", what is the word?",
             "tried": 1
         },
         {
@@ -131,7 +131,7 @@ var quizText = `{
             "answer": "fan",
             "failed": 0,
             "lastAsked": 1445534294.3609762,
-            "question": "What is the definition of \"ventilatore\"?",
+            "question": "What is the definition of \\"ventilatore\\"?",
             "tried": 1
         },
         {
@@ -145,7 +145,7 @@ var quizText = `{
             "answer": "Lei ha bisogno di una sciarpa.",
             "failed": 1,
             "lastAsked": 1445534320.9999762,
-            "question": "What is the definition of \"She needs a scarf.\"?",
+            "question": "What is the definition of \\"She needs a scarf.\\"?",
             "tried": 2
         },
         {
@@ -159,35 +159,35 @@ var quizText = `{
             "answer": "There are three boys and five girls.",
             "failed": 0,
             "lastAsked": 1445534212.2469761,
-            "question": "Given the definition \"Ci sono quattro ragazzi e cinque ragazze.\", what is the word?",
+            "question": "Given the definition \\"Ci sono quattro ragazzi e cinque ragazze.\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "friends",
             "failed": 1,
             "lastAsked": 1445534305.1809762,
-            "question": "What is the definition of \"amici\"?",
+            "question": "What is the definition of \\"amici\\"?",
             "tried": 2
         },
         {
             "answer": "Noi abbiamo bisogno di un ventilatore.",
             "failed": 0,
             "lastAsked": 1445534340.517976,
-            "question": "Given the definition \"We need a fan.\", what is the word?",
+            "question": "Given the definition \\"We need a fan.\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "studentessa",
             "failed": 0,
             "lastAsked": 1445534354.876976,
-            "question": "Given the definition \"female student\", what is the word?",
+            "question": "Given the definition \\"female student\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "Maria is always cold.",
             "failed": 0,
             "lastAsked": 1445534361.516976,
-            "question": "Given the definition \"Maria ha sempre freddo.\", what is the word?",
+            "question": "Given the definition \\"Maria ha sempre freddo.\\", what is the word?",
             "tried": 1
         },
         {
@@ -201,14 +201,14 @@ var quizText = `{
             "answer": "She needs a scarf.",
             "failed": 0,
             "lastAsked": 1445534326.238976,
-            "question": "Given the definition \"Lei ha bisogno di una sciarpa.\", what is the word?",
+            "question": "Given the definition \\"Lei ha bisogno di una sciarpa.\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "female student",
             "failed": 0,
             "lastAsked": 1445534351.017976,
-            "question": "What is the definition of \"studentessa\"?",
+            "question": "What is the definition of \\"studentessa\\"?",
             "tried": 1
         },
         {
@@ -222,28 +222,28 @@ var quizText = `{
             "answer": "studente",
             "failed": 0,
             "lastAsked": 1445534370.3359761,
-            "question": "Given the definition \"male student\", what is the word?",
+            "question": "Given the definition \\"male student\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "avere bisogno di",
             "failed": 0,
             "lastAsked": 1445534436.231976,
-            "question": "Given the definition \"to need\", what is the word?",
+            "question": "Given the definition \\"to need\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "sciarpa",
             "failed": 0,
             "lastAsked": 1445534428.531976,
-            "question": "Given the definition \"scarf\", what is the word?",
+            "question": "Given the definition \\"scarf\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "panino",
             "failed": 1,
             "lastAsked": 1445534456.970976,
-            "question": "Given the definition \"sandwich\", what is the word?",
+            "question": "Given the definition \\"sandwich\\", what is the word?",
             "tried": 2
         },
         {
@@ -264,21 +264,21 @@ var quizText = `{
             "answer": "Betty e Rose hanno sempre fretta.",
             "failed": 0,
             "lastAsked": 1445534401.753976,
-            "question": "What is the definition of \"Betty and Rose are always in a hurry.\"?",
+            "question": "What is the definition of \\"Betty and Rose are always in a hurry.\\"?",
             "tried": 1
         },
         {
             "answer": "avere voglia di",
             "failed": 1,
             "lastAsked": 1445534454.3909762,
-            "question": "Given the definition \"to feel like something\", what is the word?",
+            "question": "Given the definition \\"to feel like something\\", what is the word?",
             "tried": 2
         },
         {
             "answer": "male friend",
             "failed": 0,
             "lastAsked": 1445534424.9929762,
-            "question": "What is the definition of \"amico\"?",
+            "question": "What is the definition of \\"amico\\"?",
             "tried": 1
         },
         {
@@ -292,7 +292,7 @@ var quizText = `{
             "answer": "Here are my friends.",
             "failed": 1,
             "lastAsked": 1445534539.524976,
-            "question": "Given the definition \"Ecco i miei amici.\", what is the word?",
+            "question": "Given the definition \\"Ecco i miei amici.\\", what is the word?",
             "tried": 2
         },
         {
@@ -313,21 +313,21 @@ var quizText = `{
             "answer": "They feel like having a coffee.",
             "failed": 1,
             "lastAsked": 1445534554.6839762,
-            "question": "Given the definition \"Loro hanno voglia di un caffe'.\", what is the word?",
+            "question": "Given the definition \\"Loro hanno voglia di un caffe'.\\", what is the word?",
             "tried": 2
         },
         {
             "answer": "to need",
             "failed": 0,
             "lastAsked": 1445534502.807976,
-            "question": "What is the definition of \"avere bisogno di\"?",
+            "question": "What is the definition of \\"avere bisogno di\\"?",
             "tried": 1
         },
         {
             "answer": "Matteo is always hungry.",
             "failed": 0,
             "lastAsked": 1445534521.105976,
-            "question": "Given the definition \"Metteo ha sempre fame.\", what is the word?",
+            "question": "Given the definition \\"Metteo ha sempre fame.\\", what is the word?",
             "tried": 1
         },
         {
@@ -341,7 +341,7 @@ var quizText = `{
             "answer": "We need a fan.",
             "failed": 0,
             "lastAsked": 1445534605.100976,
-            "question": "What is the definition of \"Noi abbiamo bisogno di un ventilatore.\"?",
+            "question": "What is the definition of \\"Noi abbiamo bisogno di un ventilatore.\\"?",
             "tried": 1
         },
         {
@@ -355,7 +355,7 @@ var quizText = `{
             "answer": "Metteo ha sempre fame.",
             "failed": 0,
             "lastAsked": 1445534582.521976,
-            "question": "What is the definition of \"Matteo is always hungry.\"?",
+            "question": "What is the definition of \\"Matteo is always hungry.\\"?",
             "tried": 1
         },
         {
@@ -369,21 +369,21 @@ var quizText = `{
             "answer": "sandwich",
             "failed": 0,
             "lastAsked": 1445534613.159976,
-            "question": "What is the definition of \"panino\"?",
+            "question": "What is the definition of \\"panino\\"?",
             "tried": 1
         },
         {
             "answer": "Lui ha voglia di un panino.",
             "failed": 0,
             "lastAsked": 1445534596.3609762,
-            "question": "What is the definition of \"He feels like having a sandwich.\"?",
+            "question": "What is the definition of \\"He feels like having a sandwich.\\"?",
             "tried": 1
         },
         {
             "answer": "Kate and I are always hot.",
             "failed": 0,
             "lastAsked": 1445534569.182976,
-            "question": "Given the definition \"Io e Kate abbiamo sempre caldo.\", what is the word?",
+            "question": "Given the definition \\"Io e Kate abbiamo sempre caldo.\\", what is the word?",
             "tried": 1
         },
         {
@@ -397,56 +397,56 @@ var quizText = `{
             "answer": "caffe'",
             "failed": 0,
             "lastAsked": 1445534688.5949762,
-            "question": "Given the definition \"coffee\", what is the word?",
+            "question": "Given the definition \\"coffee\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "coffee",
             "failed": 0,
             "lastAsked": 1445534691.174976,
-            "question": "What is the definition of \"caffe'\"?",
+            "question": "What is the definition of \\"caffe'\\"?",
             "tried": 1
         },
         {
             "answer": "to feel like something",
             "failed": 0,
             "lastAsked": 1445534686.195976,
-            "question": "What is the definition of \"avere voglia di\"?",
+            "question": "What is the definition of \\"avere voglia di\\"?",
             "tried": 1
         },
         {
             "answer": "scarf",
             "failed": 0,
             "lastAsked": 1445534618.7799761,
-            "question": "What is the definition of \"sciarpa\"?",
+            "question": "What is the definition of \\"sciarpa\\"?",
             "tried": 1
         },
         {
             "answer": "Anche io ho sempre fretta.",
             "failed": 0,
             "lastAsked": 1445534648.8579762,
-            "question": "What is the definition of \"I am always in a hurry, too.\"?",
+            "question": "What is the definition of \\"I am always in a hurry, too.\\"?",
             "tried": 1
         },
         {
             "answer": "amica",
             "failed": 0,
             "lastAsked": 1445534616.139976,
-            "question": "Given the definition \"female friend\", what is the word?",
+            "question": "Given the definition \\"female friend\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "He feels like having a sandwich.",
             "failed": 0,
             "lastAsked": 1445534631.7789762,
-            "question": "Given the definition \"Lui ha voglia di un panino.\", what is the word?",
+            "question": "Given the definition \\"Lui ha voglia di un panino.\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "Ecco i miei amici.",
             "failed": 1,
             "lastAsked": 1445534698.494976,
-            "question": "What is the definition of \"Here are my friends.\"?",
+            "question": "What is the definition of \\"Here are my friends.\\"?",
             "tried": 2
         },
         {
@@ -460,35 +460,35 @@ var quizText = `{
             "answer": "male student",
             "failed": 0,
             "lastAsked": 1445534724.932976,
-            "question": "What is the definition of \"studente\"?",
+            "question": "What is the definition of \\"studente\\"?",
             "tried": 1
         },
         {
             "answer": "female friend",
             "failed": 0,
             "lastAsked": 1445534745.751976,
-            "question": "What is the definition of \"amica\"?",
+            "question": "What is the definition of \\"amica\\"?",
             "tried": 1
         },
         {
             "answer": "ventilatore",
             "failed": 0,
             "lastAsked": 1445534708.1939762,
-            "question": "Given the definition \"fan\", what is the word?",
+            "question": "Given the definition \\"fan\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "amici",
             "failed": 0,
             "lastAsked": 1445534727.932976,
-            "question": "Given the definition \"friends\", what is the word?",
+            "question": "Given the definition \\"friends\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "Giorgio and Pete are always sleepy.",
             "failed": 0,
             "lastAsked": 1445534741.431976,
-            "question": "Given the definition \"Giorgio e Pete hanno sempre sonno.\", what is the word?",
+            "question": "Given the definition \\"Giorgio e Pete hanno sempre sonno.\\", what is the word?",
             "tried": 1
         },
         {
@@ -509,21 +509,21 @@ var quizText = `{
             "answer": "Io e Kate abbiamo sempre caldo.",
             "failed": 0,
             "lastAsked": 1445534806.507976,
-            "question": "What is the definition of \"Kate and I are always hot.\"?",
+            "question": "What is the definition of \\"Kate and I are always hot.\\"?",
             "tried": 1
         },
         {
             "answer": "amico",
             "failed": 0,
             "lastAsked": 1445534779.3489761,
-            "question": "Given the definition \"male friend\", what is the word?",
+            "question": "Given the definition \\"male friend\\", what is the word?",
             "tried": 1
         },
         {
             "answer": "Ci sono quattro ragazzi e cinque ragazze.",
             "failed": 0,
             "lastAsked": 1445534764.829976,
-            "question": "What is the definition of \"There are three boys and five girls.\"?",
+            "question": "What is the definition of \\"There are three boys and five girls.\\"?",
             "tried": 1
         },
         {
@@ -562,5 +562,12 @@ var quizJson = JSON.parse(quizText);
         this.gotoNextQuestion = function() {
             this.index += 1;
         };
+        this.getAverage = function() {
+            var question = this.questions[this.questions.index];
+            var tried = question['tried'];
+            var failed = question['failed'];
+            return failed / tried;
+        };
+        this.currentQuestion = this.getCurrentQuestion();
     });
 })();
