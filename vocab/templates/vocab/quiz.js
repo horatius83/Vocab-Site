@@ -545,6 +545,14 @@ var quizText = `{
 var quizJson = JSON.parse(quizText);
 
 var Utility = {
+    /**
+     * Split a list into sections of a given length
+     *
+     * @method splitIntoSections
+     * @param lst {List} a list of elements
+     * @param lengthOfSection {Int} the length of each section
+     * @return {List} a list of lists of the requested length
+     */
     splitIntoSections : function(lst, lengthOfSection) {
         // given a list, split it into sub-lists of a given length
         var returnList = [];
@@ -553,7 +561,13 @@ var Utility = {
         }
         return returnList;
     },
-    // Using the Dustenfeld shuffle
+    /**
+     * Use the Duestenfeld shuffle to randomize a list
+     *
+     * @method shuffle 
+     * @param arry {List} a list to be shuffled
+     * @return {List} a shuffled list
+     */
     shuffle : function(arry) {
         for(var i=arry.length-1;i>0;i--) {
             var j = Math.floor(Math.random() * (i+1));
@@ -568,28 +582,46 @@ var Utility = {
 (function(){
     var quizApp = angular.module('quizApp', []);
     quizApp.controller('QuizController', function() {
-        this.title = quizJson['name'];
-        this.questions = quizJson['vocab'];
-        this.questions.index = 0;
-        this.getQuestion = function(index) {
-            return this.questions[index];
+        
+        /**
+         * Given the quiz json data, return a shuffled
+         * vocab list of lists of length this.sectionSize
+         *
+         * @method createListOfSections
+         * @param json {json} json data with a list at json.vocab
+         * @return {List} a shuffled list of lists of length this.sectionSize
+         * representing our quiz questions
+         */
+        this.createListOfSections = function(json) {
+            var questions = Utility.shuffle(json['vocab']);
+            return Utility.splitIntoSections(questions,this.sectionSize);
+        };
+        this.getQuestionNode = function() {
+            return this.questions[this.questions.currentSection][this.questions.index]
         };
         this.getCurrentQuestion = function() {
-            return this.questions[this.questions.index]['question'];
+            var q = this.getQuestionNode();
+            return q['question'];
         };
         this.getCurrentAnswer = function() {
-            return this.questions[this.questions.index]['answer'];
+            var q = this.getQuestionNode();
+            return q['answer'];
         };
         this.gotoNextQuestion = function() {
-            this.index += 1;
+            this.index = (this.index + 1) % this.sectionSize;
+            this.section += index == 0 ? 1 : 0;
         };
         this.getAverage = function() {
-            var question = this.questions[this.questions.index];
+            var question = this.getQuestionNode();
             var tried = question['tried'];
             var failed = question['failed'];
             return failed / tried;
         };
-
-        this.currentQuestion = this.getCurrentQuestion();
+        this.sectionSize = 8;
+        this.title = quizJson['name'];
+        this.questions = this.createListOfSections(quizJson);
+        this.questions.index = 0;
+        this.questions.currentSection = 0;
+        this.questions.current = this.getCurrentQuestion();
     });
 })();
