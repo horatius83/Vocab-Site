@@ -544,6 +544,27 @@ var quizText = `{
 }`;
 var quizJson = JSON.parse(quizText);
 
+var Utility = {
+    splitIntoSections : function(lst, lengthOfSection) {
+        // given a list, split it into sub-lists of a given length
+        var returnList = [];
+        for(var i=0;i<lst.length;i+=lengthOfSection) {
+            returnList.push(lst.slice(i,i+lengthOfSection));
+        }
+        return returnList;
+    },
+    // Using the Dustenfeld shuffle
+    shuffle : function(arry) {
+        for(var i=arry.length-1;i>0;i--) {
+            var j = Math.floor(Math.random() * (i+1));
+            var temp = arry[i];
+            arry[i] = arry[j];
+            arry[j] = temp;
+        }
+        return arry;
+    }
+};
+
 (function(){
     var quizApp = angular.module('quizApp', []);
     quizApp.controller('QuizController', function() {
@@ -568,6 +589,7 @@ var quizJson = JSON.parse(quizText);
             var failed = question['failed'];
             return failed / tried;
         };
+
         this.currentQuestion = this.getCurrentQuestion();
     });
 })();
