@@ -14,12 +14,12 @@
 </head>
 <body>
     <div ng-controller='QuizController as Quiz'>
-        <h3>Section x of x (x% done)</h3>
+        <h3>Section {{ Quiz.section }} of {{ Quiz.questions.length }} ({{Quiz.section / Quiz.questions.length }}% done)</h3>
         <h3>Current average: {{ Quiz.getAverage() }}%</h3>
         <h3>{{ Quiz.getCurrentQuestion() }}</h3>
         <form>
             <input type="text" name="answer"></input>
-            <input type="submit" name="submit"></input>
+            <input type="submit" name="submit" ng-click="{{ Quiz.gotoNextQuestion() }}"></input>
         </form>
     </div>
     </body>

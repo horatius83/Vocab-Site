@@ -597,7 +597,7 @@ var Utility = {
             return Utility.splitIntoSections(questions,this.sectionSize);
         };
         this.getQuestionNode = function() {
-            return this.questions[this.questions.currentSection][this.questions.index]
+            return this.questions[this.section][this.index]
         };
         this.getCurrentQuestion = function() {
             var q = this.getQuestionNode();
@@ -618,10 +618,11 @@ var Utility = {
             return failed / tried;
         };
         this.sectionSize = 8;
+        this.section = 0;
+        this.index = 0;
         this.title = quizJson['name'];
         this.questions = this.createListOfSections(quizJson);
         this.questions.index = 0;
-        this.questions.currentSection = 0;
         this.questions.current = this.getCurrentQuestion();
     });
 })();
