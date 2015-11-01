@@ -596,9 +596,23 @@ var Utility = {
             var questions = Utility.shuffle(json['vocab']);
             return Utility.splitIntoSections(questions,this.sectionSize);
         };
+        /**
+         * Get the current question node including question, answer
+         * and stats
+         *
+         * @method getQuestionNode
+         * @return {Object} an object containing the question, the answer and
+         * any relevent stats
+         */
         this.getQuestionNode = function() {
             return this.questions[this.section][this.index]
         };
+        /**
+         * Get the current question
+         *
+         * @method getCurrentQuestion
+         * @return {String} the current question
+         */
         this.getCurrentQuestion = function() {
             var q = this.getQuestionNode();
             return q['question'];
@@ -609,7 +623,8 @@ var Utility = {
         };
         this.gotoNextQuestion = function() {
             this.index = (this.index + 1) % this.sectionSize;
-            this.section += index == 0 ? 1 : 0;
+            this.section += this.index == 0 ? 1 : 0;
+            this.clearUserAnswer();
         };
         this.getAverage = function() {
             var question = this.getQuestionNode();
@@ -617,6 +632,39 @@ var Utility = {
             var failed = question['failed'];
             return failed / tried;
         };
+        this.getUserAnswer = function() {
+            var userAnswer = document.querySelector('#answer').value;
+            return userAnswer;
+        };
+        this.clearUserAnswer = function() {
+            var userAnswerTextField = document.querySelector('#answer');
+            userAnswerTextField.value = '';
+            userAnswerTextField.focus();
+        };
+        this.checkAnswer = function() {
+            var actualAnswer = this.getCurrentAnswer();
+            var userAnswer = this.getUserAnswer();
+            var question = this.getQuestionNode();
+            question['tried'] += 1;
+            question['lastTried'] = new Date().getTime();
+
+            if(actualAnswer === userAnswer) {
+                this.gotoNextQuestion();
+            } else {
+                this.isAsking = false;
+                this.isChecking = true;
+            }
+        };
+        this.answerWas = function(wasCorrect) {
+            var question = this.getQuestionNode();
+            question['failed'] += wasCorrect ? 0 : 1;
+            this.gotoNextQuestion();
+            this.isAsking = true;
+            this.isChecking = false;
+        };
+
+        this.isAsking = true;
+        this.isChecking = false;
         this.sectionSize = 8;
         this.section = 0;
         this.index = 0;

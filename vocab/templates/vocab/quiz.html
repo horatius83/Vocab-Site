@@ -14,13 +14,26 @@
 </head>
 <body>
     <div ng-controller='QuizController as Quiz'>
-        <h3>Section {{ Quiz.section }} of {{ Quiz.questions.length }} ({{Quiz.section / Quiz.questions.length }}% done)</h3>
-        <h3>Current average: {{ Quiz.getAverage() }}%</h3>
-        <h3>{{ Quiz.getCurrentQuestion() }}</h3>
-        <form>
-            <input type="text" name="answer"></input>
-            <input type="submit" name="submit" ng-click="{{ Quiz.gotoNextQuestion() }}"></input>
-        </form>
+        <div id='stats'>
+                <h3>Section {{ Quiz.section }} of {{ Quiz.questions.length }} ({{Quiz.section / Quiz.questions.length }}% done)</h3>
+                <h3>Current average: {{ Quiz.getAverage() }}%</h3>
+        </div>
+        <div id='question' ng-show='Quiz.isAsking'>
+                <h3>{{ Quiz.getCurrentQuestion() }}</h3>
+                <form>
+                    <input type="text" id="answer"></input>
+                    <input type="button" value="submit" ng-click="Quiz.checkAnswer()"></input>
+                </form>
+        </div>
+        <div ng-show='Quiz.isChecking'>
+            <h3>Answer was:      {{ Quiz.getCurrentAnswer() }}</h3>
+            <h3>Your answer was: {{ Quiz.getUserAnswer() }}</h3> 
+            <h3>Is this correct?</h3>
+            <form>
+                <input type='button' value='Yes' ng-click='Quiz.answerWas(true)'></input>
+                <input type='button' value='No' ng-click='Quiz.answerWas(false)'></input>
+            </form>
+        </div>
     </div>
-    </body>
+</body>
 </html>
