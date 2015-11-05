@@ -663,6 +663,17 @@ var Utility = {
             this.isChecking = false;
         };
 
+        this.range = function(begin, end, amount) {
+            if(amount === null) {
+                amount = 1;
+            }
+            var rv = [];
+            for(var i=begin;i<=end;i+=amount) {
+                rv[i] = i;
+            }
+            return rv;
+        };
+
         this.isAsking = true;
         this.isChecking = false;
         this.sectionSize = 8;
@@ -672,5 +683,6 @@ var Utility = {
         this.questions = this.createListOfSections(quizJson);
         this.questions.index = 0;
         this.questions.current = this.getCurrentQuestion();
+        this.indices = Utility.splitIntoSections(Utility.shuffle(this.range(0,quizJson['vocab'].length).map(function(x) {return {'index': x, 'result' : true}})));
     });
 })();
