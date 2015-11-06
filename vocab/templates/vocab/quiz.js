@@ -605,7 +605,8 @@ var Utility = {
          * any relevent stats
          */
         this.getQuestionNode = function() {
-            return this.questions[this.section][this.index]
+            var index = this.indices[this.section][this.index]['index'];
+            return this.questions[index];
         };
         /**
          * Get the current question
@@ -622,7 +623,22 @@ var Utility = {
             return q['answer'];
         };
         this.gotoNextQuestion = function() {
-            this.index = (this.index + 1) % this.sectionSize;
+            
+            if(this.index + 1 == this.sectionSize) { // last question
+                this.index = 0;
+                var wrongAnswers = this.indices[this.section].filter(function(x) { return !x['result'];});
+                if(wrongAnswers === []) { // all the answers were correct
+                    this.section += 1;
+                } else {
+                    var nextWrongAnswer = wrongAnswers.slice(this.index+1, wrongAnswers.length)).concat(wrongAnswers.slice(0,this.index))[0];
+                    this.index = nextWrongAnswer['index']; // we're looking for the index of the indices array not the answers
+                }
+            } else {
+                this.index = (this.index + 1) % this.sectionSize;
+            }
+            
+
+            var gotoNextSection = this.indices[this.section].every(function(x) { return x['result']});
             this.section += this.index == 0 ? 1 : 0;
             this.clearUserAnswer();
         };
@@ -653,11 +669,13 @@ var Utility = {
             } else {
                 this.isAsking = false;
                 this.isChecking = true;
+                this.indices[this.section][this.index]['result'] = false;
             }
         };
         this.answerWas = function(wasCorrect) {
             var question = this.getQuestionNode();
             question['failed'] += wasCorrect ? 0 : 1;
+            this.indices[this.section][this.index]['result'] = wasCorrect;
             this.gotoNextQuestion();
             this.isAsking = true;
             this.isChecking = false;
@@ -680,7 +698,7 @@ var Utility = {
         this.section = 0;
         this.index = 0;
         this.title = quizJson['name'];
-        this.questions = this.createListOfSections(quizJson);
+        this.questions = quizJson['vocab'];
         this.questions.index = 0;
         this.questions.current = this.getCurrentQuestion();
         this.indices = Utility.splitIntoSections(Utility.shuffle(this.range(0,quizJson['vocab'].length).map(function(x) {return {'index': x, 'result' : true}})));
