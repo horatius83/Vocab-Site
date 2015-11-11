@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app='quizApp'>
 <head>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -15,18 +15,18 @@
 <body>
     <div ng-controller='QuizController as Quiz'>
         <div id='stats'>
-                <h3>Section {{ Quiz.section }} of {{ Quiz.questions.length }} ({{Quiz.section / Quiz.questions.length }}% done)</h3>
+                <h3>Section {{ Quiz.section.index }} of {{ Quiz.questions.length }} ({{Quiz.section.index / Quiz.indices.length }}% done)</h3>
                 <h3>Current average: {{ Quiz.getAverage() }}%</h3>
         </div>
-        <div id='question' ng-show='Quiz.isAsking'>
-                <h3>{{ Quiz.getCurrentQuestion() }}</h3>
+        <div id='question' ng-show='Quiz.state.isAsking'>
+                <h3>{{ Quiz.getCurrentQuestion()['question'] }}</h3>
                 <form>
                     <input type="text" id="answer"></input>
                     <input type="button" value="submit" ng-click="Quiz.checkAnswer()"></input>
                 </form>
         </div>
-        <div ng-show='Quiz.isChecking'>
-            <h3>Answer was:      {{ Quiz.getCurrentAnswer() }}</h3>
+        <div ng-show='Quiz.state.isChecking'>
+            <h3>Answer was:      {{ Quiz.getCurrentQuestion()['answer'] }}</h3>
             <h3>Your answer was: {{ Quiz.getUserAnswer() }}</h3> 
             <h3>Is this correct?</h3>
             <form>

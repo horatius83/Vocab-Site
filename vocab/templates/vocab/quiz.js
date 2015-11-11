@@ -569,81 +569,64 @@ var Utility = {
      * @return {List} a shuffled list
      */
     shuffle : function(arry) {
-        for(var i=arry.length-1;i>0;i--) {
+        var rv = arry.slice(0,arry.length);
+        for(var i=rv.length-1;i>0;i--) {
             var j = Math.floor(Math.random() * (i+1));
-            var temp = arry[i];
-            arry[i] = arry[j];
-            arry[j] = temp;
+            var temp = rv[i];
+            rv[i] = rv[j];
+            rv[j] = temp;
         }
-        return arry;
+        return rv;
+    },
+    range : function(begin, end, step) {
+            if(step === undefined) {
+                step = 1;
+            }
+            var rv = [];
+            for(var i=begin;i<=end;i+=step) {
+                rv.push(i);
+            }
+            return rv;
+    },
+    repeat : function(times, value) {
+        var rv = [];
+        for(var i=0;i<times;i++) {
+            rv.push(value);
+        }
+        return rv;
     }
 };
 
 (function(){
     var quizApp = angular.module('quizApp', []);
     quizApp.controller('QuizController', function() {
+        var u = Utility;
         
-        /**
-         * Given the quiz json data, return a shuffled
-         * vocab list of lists of length this.sectionSize
-         *
-         * @method createListOfSections
-         * @param json {json} json data with a list at json.vocab
-         * @return {List} a shuffled list of lists of length this.sectionSize
-         * representing our quiz questions
-         */
-        this.createListOfSections = function(json) {
-            var questions = Utility.shuffle(json['vocab']);
-            return Utility.splitIntoSections(questions,this.sectionSize);
-        };
+        
         /**
          * Get the current question node including question, answer
          * and stats
          *
-         * @method getQuestionNode
+         * @method getCurrentQuestion
          * @return {Object} an object containing the question, the answer and
          * any relevent stats
          */
-        this.getQuestionNode = function() {
-            var index = this.indices[this.section][this.index]['index'];
+        this.getCurrentQuestion = function() {
+            var index = this.indices[this.section.index][this.section.questionIndex];
             return this.questions[index];
         };
-        /**
-         * Get the current question
-         *
-         * @method getCurrentQuestion
-         * @return {String} the current question
-         */
-        this.getCurrentQuestion = function() {
-            var q = this.getQuestionNode();
-            return q['question'];
-        };
-        this.getCurrentAnswer = function() {
-            var q = this.getQuestionNode();
-            return q['answer'];
-        };
         this.gotoNextQuestion = function() {
-            
-            if(this.index + 1 == this.sectionSize) { // last question
-                this.index = 0;
-                var wrongAnswers = this.indices[this.section].filter(function(x) { return !x['result'];});
-                if(wrongAnswers === []) { // all the answers were correct
-                    this.section += 1;
-                } else {
-                    var nextWrongAnswer = wrongAnswers.slice(this.index+1, wrongAnswers.length)).concat(wrongAnswers.slice(0,this.index))[0];
-                    this.index = nextWrongAnswer['index']; // we're looking for the index of the indices array not the answers
-                }
+            // Are we at the end of the section?
+            if(this.section.questionIndex === this.indices[this.section.index].length - 1) {
+                this.section.questionIndex = 0;
+                this.section.index = this.section.allCorrect() ? this.section.index + 1 : this.section.index;
             } else {
-                this.index = (this.index + 1) % this.sectionSize;
+                this.section.questionIndex += 1;
+                this.section.questionResults = u.repeat(this.indices[this.section.index].length,false);
             }
-            
-
-            var gotoNextSection = this.indices[this.section].every(function(x) { return x['result']});
-            this.section += this.index == 0 ? 1 : 0;
-            this.clearUserAnswer();
         };
         this.getAverage = function() {
-            var question = this.getQuestionNode();
+            var question = this.getCurrentQuestion();
             var tried = question['tried'];
             var failed = question['failed'];
             return failed / tried;
@@ -658,49 +641,44 @@ var Utility = {
             userAnswerTextField.focus();
         };
         this.checkAnswer = function() {
-            var actualAnswer = this.getCurrentAnswer();
+            var actualAnswer = this.getCurrentQuestion()['answer'];
             var userAnswer = this.getUserAnswer();
-            var question = this.getQuestionNode();
+            var question = this.getCurrentQuestion()['question'];
             question['tried'] += 1;
             question['lastTried'] = new Date().getTime();
 
             if(actualAnswer === userAnswer) {
+                this.section.questionResults[this.section.questionIndex] = true;
                 this.gotoNextQuestion();
             } else {
-                this.isAsking = false;
-                this.isChecking = true;
-                this.indices[this.section][this.index]['result'] = false;
+                this.state.isAsking = false;
+                this.state.isChecking = true;
             }
         };
-        this.answerWas = function(wasCorrect) {
-            var question = this.getQuestionNode();
-            question['failed'] += wasCorrect ? 0 : 1;
-            this.indices[this.section][this.index]['result'] = wasCorrect;
-            this.gotoNextQuestion();
-            this.isAsking = true;
-            this.isChecking = false;
-        };
+        this.section = {
+            'index': 0, 
+            'questionIndex': 0, 
+            'size': 8, 
+            'allCorrect': function() {
+                for(var i=0;i<this.questionResults.length;i++) {
+                    if(this.questionResults[i] == false) {
+                        return false;
+                    }
+                }
+                return true;
+            }, 
+            'questionResults': []};
+        this.state = {'isAsking': true, 'isChecking': false};
 
-        this.range = function(begin, end, amount) {
-            if(amount === null) {
-                amount = 1;
-            }
-            var rv = [];
-            for(var i=begin;i<=end;i+=amount) {
-                rv[i] = i;
-            }
-            return rv;
-        };
-
-        this.isAsking = true;
-        this.isChecking = false;
-        this.sectionSize = 8;
-        this.section = 0;
-        this.index = 0;
+        //this.isAsking = true;
+        //this.isChecking = false;
+        //this.sectionSize = 8;
+        //this.section = 0;
+        //this.index = 0;
         this.title = quizJson['name'];
         this.questions = quizJson['vocab'];
-        this.questions.index = 0;
-        this.questions.current = this.getCurrentQuestion();
-        this.indices = Utility.splitIntoSections(Utility.shuffle(this.range(0,quizJson['vocab'].length).map(function(x) {return {'index': x, 'result' : true}})));
+        //this.questions.index = 0;
+        this.indices = u.splitIntoSections(u.shuffle(u.range(0,quizJson['vocab'].length)),this.section.size);
+        this.questions.current = this.getCurrentQuestion()['question'];
     });
 })();
