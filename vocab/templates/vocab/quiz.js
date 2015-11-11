@@ -601,8 +601,6 @@ var Utility = {
     var quizApp = angular.module('quizApp', []);
     quizApp.controller('QuizController', function() {
         var u = Utility;
-        
-        
         /**
          * Get the current question node including question, answer
          * and stats
@@ -616,6 +614,10 @@ var Utility = {
             return this.questions[index];
         };
         this.gotoNextQuestion = function() {
+            // Clear the answer
+            this.clearUserAnswer();
+            // If we're going to the next question, we're no longer reviewing
+            this.state.isReviewing = false;
             // Are we at the end of the section?
             if(this.section.questionIndex === this.indices[this.section.index].length - 1) {
                 this.section.questionIndex = 0;
@@ -655,6 +657,19 @@ var Utility = {
                 this.state.isChecking = true;
             }
         };
+        this.answerWas = function(wasTrue) { 
+            if(wasTrue) {
+                this.section.questionResults[this.section.questionIndex] = this.state.isReviewing ? false : true;
+                this.gotoNextQuestion();
+                this.state.isAsking = true;
+                this.state.isChecking = false;
+            } else {
+                this.state.isAsking = true;
+                this.state.isChecking = false;
+                this.state.isReviewing = true;
+                this.clearUserAnswer();
+            }
+        };
         this.section = {
             'index': 0, 
             'questionIndex': 0, 
@@ -667,17 +682,11 @@ var Utility = {
                 }
                 return true;
             }, 
-            'questionResults': []};
-        this.state = {'isAsking': true, 'isChecking': false};
-
-        //this.isAsking = true;
-        //this.isChecking = false;
-        //this.sectionSize = 8;
-        //this.section = 0;
-        //this.index = 0;
+            'questionResults': []
+        };
+        this.state = {'isAsking': true, 'isChecking': false, 'isReviewing' : false};
         this.title = quizJson['name'];
         this.questions = quizJson['vocab'];
-        //this.questions.index = 0;
         this.indices = u.splitIntoSections(u.shuffle(u.range(0,quizJson['vocab'].length)),this.section.size);
         this.questions.current = this.getCurrentQuestion()['question'];
     });
