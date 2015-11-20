@@ -26,6 +26,7 @@
                 </form>
         </div>
         <div ng-show='Quiz.state.isChecking'>
+            <h3>Question was: {{ Quiz.getCurrentQuestion()['question'] }}</h3>
             <h3>Answer was:      {{ Quiz.getCurrentQuestion()['answer'] }}</h3>
             <h3>Your answer was: {{ Quiz.getUserAnswer() }}</h3> 
             <h3>Is this correct?</h3>

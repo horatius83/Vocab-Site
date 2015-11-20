@@ -594,6 +594,23 @@ var Utility = {
             rv.push(value);
         }
         return rv;
+    },
+    findFirstOf : function(lst, predicate) {
+        for(var i=0;i<lst.length;i++) {
+            if(predicate(lst[i])) {
+                return lst[i];
+            }
+        }
+    },
+    findFirstWithIndex : function(lst, predicate) {
+        for(var i=0;i<lst.length;i++) {
+            if(predicate(i,lst[i])) {
+                return [i, lst[i]];
+            }
+        }
+    },
+    makeRing : function(lst,index) {
+        return lst.slice(index+1,lst.length).concat(lst.slice(0,index));
     }
 };
 
@@ -613,20 +630,37 @@ var Utility = {
             var index = this.indices[this.section.index][this.section.questionIndex];
             return this.questions[index];
         };
+        /**
+         * Go to the next question, if we're reviewing then go to the next question
+         * that was wrong the last time through
+         * @method gotoNextQuestion
+         */
         this.gotoNextQuestion = function() {
             // Clear the answer
             this.clearUserAnswer();
             // If we're going to the next question, we're no longer reviewing
             this.state.isReviewing = false;
+            // Get the next index
+            var indexAndValue = u.findFirstWithIndex(this.section.questionResults,
+                function(x) { return !x; });
+            
             // Are we at the end of the section?
             if(this.section.questionIndex === this.indices[this.section.index].length - 1) {
-                this.section.questionIndex = 0;
+                //this.section.questionIndex = 0;
+                this.section.questionIndex = u.findFirstOf(
+                        this.section.questionResults,
+                        function(x) { return !x; });
                 this.section.index = this.section.allCorrect() ? this.section.index + 1 : this.section.index;
             } else {
                 this.section.questionIndex += 1;
                 this.section.questionResults = u.repeat(this.indices[this.section.index].length,false);
             }
         };
+        /**
+         * Get the number of times this question has been attempted
+         * vs. the number of times the answer was incorrect
+         * @method getAverage
+         */
         this.getAverage = function() {
             var question = this.getCurrentQuestion();
             var tried = question['tried'];
