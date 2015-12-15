@@ -649,7 +649,7 @@ var Utility = {
                 //this.section.questionIndex = 0;
                 this.section.questionIndex = u.findFirstOf(
                         this.section.questionResults,
-                        function(x) { return !x; });
+                        function(x) { return !x; }) || 0;
                 this.section.index = this.section.allCorrect() ? this.section.index + 1 : this.section.index;
             } else {
                 this.section.questionIndex += 1;
