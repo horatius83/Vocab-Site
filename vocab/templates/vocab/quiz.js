@@ -583,8 +583,14 @@ var Utility = {
                 step = 1;
             }
             var rv = [];
-            for(var i=begin;i<=end;i+=step) {
-                rv.push(i);
+            if(step > 0) {
+                for(var i=begin;i<=end;i+=step) {
+                    rv.push(i);
+                }
+            } else if(step < 0) {
+                for(var i=begin;i>=end;i+=step) {
+                    rv.push(i);
+                }
             }
             return rv;
     },
