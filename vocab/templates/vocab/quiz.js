@@ -596,6 +596,9 @@ var Utility = {
     },
     repeat : function(times, value) {
         var rv = [];
+        if(times < 0) {
+            return [];
+        }
         for(var i=0;i<times;i++) {
             rv.push(value);
         }
@@ -604,16 +607,18 @@ var Utility = {
     findFirstOf : function(lst, predicate) {
         for(var i=0;i<lst.length;i++) {
             if(predicate(lst[i])) {
-                return lst[i];
+                return [true, lst[i]];
             }
         }
+        return [false, undefined];
     },
     findFirstWithIndex : function(lst, predicate) {
         for(var i=0;i<lst.length;i++) {
             if(predicate(i,lst[i])) {
-                return [i, lst[i]];
+                return [true, i, lst[i]];
             }
         }
+        return [false, undefined, undefined];
     },
     makeRing : function(lst,index) {
         return lst.slice(index+1,lst.length).concat(lst.slice(0,index));
@@ -646,16 +651,14 @@ var Utility = {
             this.clearUserAnswer();
             // If we're going to the next question, we're no longer reviewing
             this.state.isReviewing = false;
-            // Get the next index
-            var indexAndValue = u.findFirstWithIndex(this.section.questionResults,
-                function(x) { return !x; });
-            
+                        
             // Are we at the end of the section?
             if(this.section.questionIndex === this.indices[this.section.index].length - 1) {
                 //this.section.questionIndex = 0;
-                this.section.questionIndex = u.findFirstOf(
+                var questionIndex = u.findFirstOf(
                         this.section.questionResults,
-                        function(x) { return !x; }) || 0;
+                        function(x) { return !x; });
+                this.section.questionIndex = questionIndex[0] ? questionIndex[1] : 0;
                 this.section.index = this.section.allCorrect() ? this.section.index + 1 : this.section.index;
             } else {
                 this.section.questionIndex += 1;

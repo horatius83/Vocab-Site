@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.test("Utility.splitIntoSections_test", function(assert) {
     var lst = [0,1,2,3,4,5,6,7];
     var sections = Utility.splitIntoSections(lst,3)
@@ -5,7 +7,7 @@ QUnit.test("Utility.splitIntoSections_test", function(assert) {
     assert.ok(sections.length == expectedLst.length, "List length was correct!");
     for(var i=0; i<3; i++) {
         assert.ok(sections[i].length == expectedLst[i].length, "Section length was correct!");
-        for(j=0; j<sections[i].length; j++) {
+        for(var j=0; j<sections[i].length; j++) {
             assert.ok(sections[i][j] == expectedLst[i][j], "Section content was the same!");
         }
     }
@@ -32,5 +34,62 @@ QUnit.test("Utility.range_test", function(assert) {
     for(var i=0;i<expectedResult.length;++i) {
         assert.ok(expectedResult[i] == experimentalResult4[i], "Iterate-by-two: Experimental result was " + experimentalResult4[i] + " but expected result was " + expectedResult[i]);
     }
+
+    var experimentalResult5 = Utility.range(0,4);
+    assert.ok(experimentalResult5.length == 5, 'Array-length with default step argument was correct');
+    for(var i=0;i<=4;i++) {
+        assert.ok(experimentalResult5[i] == i, "Array value with default step argument " + experimentalResult5[i] + " at index " + i + " is correct."); 
+    }
+});
+
+QUnit.test("Utility.repeat test", function(assert) {
+    var expectedResult = [1, 1, 1, 1];
+    var experimentalResult = Utility.repeat(4,1);
+    for(var i=0;i<expectedResult.length;i++) {
+        assert.ok(expectedResult[i] == experimentalResult[i], "Expected result was " + expectedResult[i] + " experimental result was " + experimentalResult[i]);
+    }
+
+    var experimentalResult2 = Utility.repeat(0,5);
+    assert.ok(experimentalResult2.length === 0, "Expected an empty list when repeating zero times")
+
+    var experimentalResult3 = Utility.repeat(-5,8);
+    assert.ok(experimentalResult3.length === 0, "Expected an empty list when repeating a negative number of times");
+});
+
+QUnit.test('Utility.findFirstOf test', function(assert) {
+    var dataSet = [0,1,2,3,4,5];
+    var expectedResult = 2;
+    var experimentalResult = Utility.findFirstOf(dataSet, function(x) { return x == 2;});
+    assert.ok(experimentalResult[0], 'Expected result to be true');
+    assert.ok(experimentalResult[1] === expectedResult, "Expected value was " + expectedResult + ", experimental result was " + experimentalResult);
+
+    var dataSet2 = []
+    var experimentalResult2 = Utility.findFirstOf(dataSet2, function(x) { return x == 2;});
+    assert.ok(experimentalResult2[0] == false, 'Expected result to be false');
+    assert.ok(experimentalResult2[1] == undefined, 'Finding a value in an empty list should return undefined');
+
+    var experimentalResult3 = Utility.findFirstOf(dataSet, function(x) { return x == 6;});
+    assert.ok(experimentalResult3[0] == false, 'Expected result to be false');
+    assert.ok(experimentalResult3[1] == undefined, 'If unable to find value, return undefined');
+});
+
+QUnit.test('Utility.findFirstWithIndex test', function(assert) {
+    var dataSet = [0,1,2,3,4,5];
+    var expectedResult = 2;
+    var experimentalResult = Utility.findFirstWithIndex(dataSet, function(i, x) { return x == 2;});
+    assert.ok(experimentalResult[0], 'Expected result to be true');
+    assert.ok(experimentalResult[1] === expectedResult, "Expected value was " + expectedResult + ", experimental result was " + experimentalResult);
+    assert.ok(experimentalResult[2] === expectedResult, "Expected value was " + expectedResult + ", experimental result was " + experimentalResult);
+
+    var dataSet2 = []
+    var experimentalResult2 = Utility.findFirstOf(dataSet2, function(x) { return x == 2;});
+    assert.ok(experimentalResult2[0] == false, 'Expected result to be false')
+    assert.ok(experimentalResult2[1] == undefined, 'Finding a value in an empty list should return undefined')
+    assert.ok(experimentalResult2[2] == undefined, 'Finding a value in an empty list should return undefined')
+
+    var experimentalResult3 = Utility.findFirstOf(dataSet, function(x) { return x == 6;});
+    assert.ok(experimentalResult3[0] == false, 'Expected result to be false');
+    assert.ok(experimentalResult3[1] == undefined, 'If unable to find value, return undefined');
+    assert.ok(experimentalResult3[2] == undefined, 'If unable to find value, return undefined');
 });
 
