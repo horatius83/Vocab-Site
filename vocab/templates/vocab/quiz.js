@@ -625,112 +625,118 @@ var Utility = {
     }
 };
 
+function createQuiz() {
+    var u = Utility;
+    /**
+     * Get the current question node including question, answer
+     * and stats
+     *
+     * @method getCurrentQuestion
+     * @return {Object} an object containing the question, the answer and
+     * any relevent stats
+     */
+    this.getCurrentQuestion = function() {
+        var index = this.indices[this.section.index][this.section.questionIndex].index;
+        return this.questions[index];
+    };
+    /**
+     * Go to the next question, if we're reviewing then go to the next question
+     * that was wrong the last time through
+     * @method gotoNextQuestion
+     */
+    this.gotoNextQuestion = function() {
+        // Clear the answer
+        this.clearUserAnswer();
+        // If we're going to the next question, we're no longer reviewing
+        this.state.isReviewing = false;
+                    
+        // Get the next question
+        var currentIndex = this.section.questionIndex;
+        // Search in the remaining list
+        var isFalse = function(x) { return !x; };
+        // Search for the first wrong answer
+        var nextQuestion = u.findFirstOf(this.indices[this.section.index].slice(this.section.questionIndex+1), isFalse);
+        if(!nextQuestion[0]) { // go back to the beginning of the list
+            this.indices[this.section.index] = u.shuffle(this.indices[this.section.index]); // shuffle the list
+            nextQuestion = u.findFirstOf(this.indices[this.section.index], isFalse); // find the first wrong answer
+        }
+        if(nextQuestion[0]) {
+            this.section.questionIndex = nextQuestion[1]; // The next question is the next wrong answer
+        } else { // There are no more false questions in this section
+            this.section.index += 1;
+            this.section.questionIndex = 0;
+        }
+    };
+    /**
+     * Get the number of times this question has been attempted
+     * vs. the number of times the answer was incorrect
+     * @method getAverage
+     */
+    this.getAverage = function() {
+        var question = this.getCurrentQuestion();
+        var tried = question['tried'];
+        var failed = question['failed'];
+        return failed / tried;
+    };
+    this.getUserAnswer = function() {
+        var userAnswer = document.querySelector('#answer').value;
+        return userAnswer;
+    };
+    this.clearUserAnswer = function() {
+        var userAnswerTextField = document.querySelector('#answer');
+        userAnswerTextField.value = '';
+        userAnswerTextField.focus();
+    };
+    this.checkAnswer = function() {
+        var actualAnswer = this.getCurrentQuestion()['answer'];
+        var userAnswer = this.getUserAnswer();
+        var question = this.getCurrentQuestion()['question'];
+        question['tried'] += 1;
+        question['lastTried'] = new Date().getTime();
+
+        if(actualAnswer === userAnswer) {
+            this.gotoNextQuestion();
+        } else {
+            this.state.isAsking = false;
+            this.state.isChecking = true;
+        }
+    };
+    this.answerWas = function(wasTrue) { 
+        if(wasTrue) {
+            this.gotoNextQuestion();
+            this.state.isAsking = true;
+            this.state.isChecking = false;
+        } else {
+            this.state.isAsking = true;
+            this.state.isChecking = false;
+            this.state.isReviewing = true;
+            this.clearUserAnswer();
+        }
+    };
+    this.section = {
+        'index': 0, 
+        'questionIndex': 0, 
+        'size': 8, 
+        'allCorrect': function() {
+            for(var i=0;i<this.indices[this.section.index].length;i++) {
+                if(this.indices[this.section.index][i].result == false) {
+                    return false;
+                }
+            }
+            return true;
+        }, 
+    };
+    this.state = {'isAsking': true, 'isChecking': false, 'isReviewing' : false};
+    this.title = quizJson['name'];
+    this.questions = quizJson['vocab'];
+    this.indices = u.splitIntoSections(u.shuffle(u.range(0,quizJson['vocab'].length)),this.section.size)
+        .map(function(lst) { 
+            return lst.map(function(x) { 
+                return { 'index' : x, 'result' : false}})});
+    this.questions.current = this.getCurrentQuestion()['question'];
+}
+
 (function(){
     var quizApp = angular.module('quizApp', []);
-    quizApp.controller('QuizController', function() {
-        var u = Utility;
-        /**
-         * Get the current question node including question, answer
-         * and stats
-         *
-         * @method getCurrentQuestion
-         * @return {Object} an object containing the question, the answer and
-         * any relevent stats
-         */
-        this.getCurrentQuestion = function() {
-            var index = this.indices[this.section.index][this.section.questionIndex];
-            return this.questions[index];
-        };
-        /**
-         * Go to the next question, if we're reviewing then go to the next question
-         * that was wrong the last time through
-         * @method gotoNextQuestion
-         */
-        this.gotoNextQuestion = function() {
-            // Clear the answer
-            this.clearUserAnswer();
-            // If we're going to the next question, we're no longer reviewing
-            this.state.isReviewing = false;
-                        
-            // Are we at the end of the section?
-            if(this.section.questionIndex === this.indices[this.section.index].length - 1) {
-                //this.section.questionIndex = 0;
-                var questionIndex = u.findFirstOf(
-                        this.section.questionResults,
-                        function(x) { return !x; });
-                this.section.questionIndex = questionIndex[0] ? questionIndex[1] : 0;
-                this.section.index = this.section.allCorrect() ? this.section.index + 1 : this.section.index;
-            } else {
-                this.section.questionIndex += 1;
-                this.section.questionResults = u.repeat(this.indices[this.section.index].length,false);
-            }
-        };
-        /**
-         * Get the number of times this question has been attempted
-         * vs. the number of times the answer was incorrect
-         * @method getAverage
-         */
-        this.getAverage = function() {
-            var question = this.getCurrentQuestion();
-            var tried = question['tried'];
-            var failed = question['failed'];
-            return failed / tried;
-        };
-        this.getUserAnswer = function() {
-            var userAnswer = document.querySelector('#answer').value;
-            return userAnswer;
-        };
-        this.clearUserAnswer = function() {
-            var userAnswerTextField = document.querySelector('#answer');
-            userAnswerTextField.value = '';
-            userAnswerTextField.focus();
-        };
-        this.checkAnswer = function() {
-            var actualAnswer = this.getCurrentQuestion()['answer'];
-            var userAnswer = this.getUserAnswer();
-            var question = this.getCurrentQuestion()['question'];
-            question['tried'] += 1;
-            question['lastTried'] = new Date().getTime();
-
-            if(actualAnswer === userAnswer) {
-                this.section.questionResults[this.section.questionIndex] = true;
-                this.gotoNextQuestion();
-            } else {
-                this.state.isAsking = false;
-                this.state.isChecking = true;
-            }
-        };
-        this.answerWas = function(wasTrue) { 
-            if(wasTrue) {
-                this.section.questionResults[this.section.questionIndex] = this.state.isReviewing ? false : true;
-                this.gotoNextQuestion();
-                this.state.isAsking = true;
-                this.state.isChecking = false;
-            } else {
-                this.state.isAsking = true;
-                this.state.isChecking = false;
-                this.state.isReviewing = true;
-                this.clearUserAnswer();
-            }
-        };
-        this.section = {
-            'index': 0, 
-            'questionIndex': 0, 
-            'size': 8, 
-            'allCorrect': function() {
-                for(var i=0;i<this.questionResults.length;i++) {
-                    if(this.questionResults[i] == false) {
-                        return false;
-                    }
-                }
-                return true;
-            }, 
-            'questionResults': []
-        };
-        this.state = {'isAsking': true, 'isChecking': false, 'isReviewing' : false};
-        this.title = quizJson['name'];
-        this.questions = quizJson['vocab'];
-        this.indices = u.splitIntoSections(u.shuffle(u.range(0,quizJson['vocab'].length)),this.section.size);
-        this.questions.current = this.getCurrentQuestion()['question'];
-    });
+    quizApp.controller('QuizController', createQuiz);
 })();
