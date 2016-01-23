@@ -612,8 +612,9 @@ var Utility = {
         }
         return [false, undefined];
     },
-    findFirstWithIndex : function(lst, predicate) {
-        for(var i=0;i<lst.length;i++) {
+    findFirstWithIndex : function(lst, predicate, startingIndex) {
+        startingIndex |= 0;
+        for(var i=startingIndex; i<lst.length; i++) {
             if(predicate(i,lst[i])) {
                 return [true, i, lst[i]];
             }
@@ -653,12 +654,12 @@ function createQuiz() {
         // Get the next question
         var currentIndex = this.section.questionIndex;
         // Search in the remaining list
-        var isFalse = function(x) { return !x; };
+        var isFalse = function(i, x) { return !x.result; };
         // Search for the first wrong answer
-        var nextQuestion = u.findFirstOf(this.indices[this.section.index].slice(this.section.questionIndex+1), isFalse);
+        var nextQuestion = u.findFirstWithIndex(this.indices[this.section.index], isFalse, this.section.questionIndex+1);
         if(!nextQuestion[0]) { // go back to the beginning of the list
             this.indices[this.section.index] = u.shuffle(this.indices[this.section.index]); // shuffle the list
-            nextQuestion = u.findFirstOf(this.indices[this.section.index], isFalse); // find the first wrong answer
+            nextQuestion = u.findFirstWithIndex(this.indices[this.section.index], isFalse); // find the first wrong answer
         }
         if(nextQuestion[0]) {
             this.section.questionIndex = nextQuestion[1]; // The next question is the next wrong answer
@@ -695,6 +696,9 @@ function createQuiz() {
         question['lastTried'] = new Date().getTime();
 
         if(actualAnswer === userAnswer) {
+            if(!this.state.isReviewing) {
+                this.indices[this.section.index][this.section.questionIndex].result = true;
+            }
             this.gotoNextQuestion();
         } else {
             this.state.isAsking = false;
@@ -703,6 +707,9 @@ function createQuiz() {
     };
     this.answerWas = function(wasTrue) { 
         if(wasTrue) {
+            if(!this.state.isReviewing) {
+                this.indices[this.section.index][this.section.questionIndex].result = true;
+            }
             this.gotoNextQuestion();
             this.state.isAsking = true;
             this.state.isChecking = false;

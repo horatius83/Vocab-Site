@@ -16,6 +16,7 @@
     <div ng-controller='QuizController as Quiz'>
         <div id='stats'>
                 <h3>Section {{ Quiz.section.index }} of {{ Quiz.questions.length }} ({{Quiz.section.index / Quiz.indices.length }}% done)</h3>
+                <h3>Question {{ Quiz.section.questionIndex }} of {{ Quiz.indices[Quiz.section.index].length}}</h3>
                 <h3>Current average: {{ Quiz.getAverage() }}%</h3>
         </div>
         <div id='question' ng-show='Quiz.state.isAsking'>
