@@ -666,6 +666,12 @@ function createQuiz() {
         } else { // There are no more false questions in this section
             this.section.index += 1;
             this.section.questionIndex = 0;
+            if(this.section.index === this.indices.length) {
+                this.state.hasFinished = true;
+                this.state.isAsking = false;
+                this.state.isChecking = false;
+                this.state.isReviewing = false;
+            }
         }
     };
     /**
@@ -720,6 +726,22 @@ function createQuiz() {
             this.clearUserAnswer();
         }
     };
+    function getTotalTried() {
+        var sectionIndex = this.section.index;
+        var questionIndex = this.section.questionIndex;
+        var lst = this.indices;
+        if(sectionIndex < lst.length && questionIndex < lst[sectionIndex].length) {
+            return lst.slice(0,sectionIndex)
+                .reduce(function(acc,x) {
+                    return acc + x.length;
+                }, questionIndex + 1);
+        }
+        return -1;
+    };
+    function getTotalQuestions() {
+        var lst = this.indices;
+        return lst.reduce(function(acc, x) { return acc + x.length},0);
+    };
     this.section = {
         'index': 0, 
         'questionIndex': 0, 
@@ -733,7 +755,7 @@ function createQuiz() {
             return true;
         }, 
     };
-    this.state = {'isAsking': true, 'isChecking': false, 'isReviewing' : false};
+    this.state = {'isAsking': true, 'isChecking': false, 'isReviewing' : false, 'hasFinished' : false};
     this.title = quizJson['name'];
     this.questions = quizJson['vocab'];
     this.indices = u.splitIntoSections(u.shuffle(u.range(0,quizJson['vocab'].length)),this.section.size)
