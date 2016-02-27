@@ -14,8 +14,8 @@
 </head>
 <body>
     <div ng-controller='QuizController as Quiz'>
-        <div id='stats'>
-                <h3>Section {{ Quiz.section.index }} of {{ Quiz.questions.length }} ({{Quiz.section.index / Quiz.indices.length }}% done)</h3>
+        <div id='stats' ng-show='Quiz.state.showStats'>
+                <h3>Section {{ Quiz.section.index }} of {{ Quiz.indices.length }} ({{Quiz.section.index / Quiz.indices.length }}% done)</h3>
                 <h3>Question {{ Quiz.section.questionIndex }} of {{ Quiz.indices[Quiz.section.index].length}}</h3>
                 <h3>Current average: {{ Quiz.getAverage() }}%</h3>
         </div>
@@ -36,15 +36,20 @@
                 <input type='button' value='No' ng-click='Quiz.answerWas(false)'></input>
             </form>
         </div>
-        <div ng-show='Quiz.state.hasFinished'>
+        <div ng-show='Quiz.state.hasFinished' >
             <h3>Total tried: {{ Quiz.getTotalTried() }} of {{ Quiz.getTotalQuestions() }}</h3>
             <table>
                 <thead>
-                    <th>Question</th>
+                    <th>Questions</th>
                     <th>Attempts</th>
                     <th>% Correct</th>
                 </thead>
                 <!-- repeat over results that have been attempted -->
+                <tr ng-repeat="q in Quiz.questions">
+                    <td>{{ q.question }}</td>
+                    <td>{{ q.tried }}</td>
+                    <td>{{ q.tried - q.failed / q.tried }}</td>
+                </tr>
             </table>
         </div>
     </div>
