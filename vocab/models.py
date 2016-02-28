@@ -23,3 +23,9 @@ class Quiz(models.Model):
     def __str__(self):
         return self.title
 
+class QuizQuestion(models.Model):
+    question = models.ForeignKey('Question')
+    quiz = models.ForeignKey('Quiz')
+
+    def __str__(self):
+        return '{} ({})'.format(self.question, self.quiz)
